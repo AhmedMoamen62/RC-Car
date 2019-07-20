@@ -562,10 +562,47 @@ pinMode(echo,INPUT);
 pinMode(LS,INPUT);
 pinMode(RS,INPUT); 
 pinMode(MS,INPUT); 
+pinMode(A0,INPUT);
+pinMode(A1,INPUT);
+pinMode(A2,INPUT);
+pinMode(A3,INPUT);
 }
 
 void loop() {
-
+  char l = analogRead(A0);
+  char b = analogRead(A1);
+  char r = analogRead(A2);
+  char f = analogRead(A4);
+  if(f==1 && b==0 && r==0 && l==0)
+  {
+      handle_forward();
+  }
+  else if(f==0 && b==1 && r==0 && l==0)
+  {
+      handle_backward();
+  }
+  else if(f==0 && b==0 && r==1 && l==0)
+  {
+      handle_right();
+ }
+  else if(f==0 && b==0 && r==0 && l==1)
+ {
+      handle_left();
+  }
+  else if(f==1 && b==1 && r==0 && l==0)
+  {
+      flag_u=1;
+      ultrasonic();
+  }
+  else if(f==0 && b==0 && r==1 && l==1)
+  {
+      flag_l=1;
+      line_followerR ();
+  }
+  else 
+  {
+      handle_stop();
+  }
   if(Serial.available())
   {
     car_direction = Serial.read();  
